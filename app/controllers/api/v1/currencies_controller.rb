@@ -1,9 +1,11 @@
-module Api::V1
-  class CurrenciesController < ApplicationController
-    def all
-      data = HTTParty.get('https://api.coinmarketcap.com/v1/ticker/')
+# frozen_string_literal: true
 
-      render json: data.body
+module Api
+  module V1
+    class CurrenciesController < ApplicationController
+      def index
+        render json: Cryptocurrency.all.to_json
+      end
     end
   end
 end

@@ -7,7 +7,7 @@ export default class Currencies extends Component {
   }
 
   componentDidMount = () => {
-      axios.get("http://localhost:3001/api/v1/currencies/all", { headers: { 'Authorization': this.props.auth_token }  }).then(data => {
+      axios.get("http://localhost:3001/api/v1/currencies", { headers: { 'Authorization': this.props.auth_token }  }).then(data => {
           console.log(data)
           this.setState({ currencies: data.data })
       })
@@ -15,7 +15,7 @@ export default class Currencies extends Component {
 
   render() {
     const listCurrencies = this.state.currencies.map((currency) =>
-      <li>{currency.id + currency.price_usd}</li>
+      <li key={currency.symbol}>{ currency.symbol + " " + currency.name + " " + currency.price}</li>
     );
 
     return(<ul>{listCurrencies}</ul>)
