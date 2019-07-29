@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post 'authenticate', to: 'authentication#authenticate'
       get 'currencies', to: 'currencies#index'
+      get 'portfolio', to: 'portfolio#index'
     end
   end
 end

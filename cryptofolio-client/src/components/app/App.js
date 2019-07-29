@@ -4,6 +4,7 @@ import axios from 'axios'
 
 import Authetication from '../authetication/Authentication'
 import Logout from '../logout/Logout'
+import Portfolio from '../portfolio/Portfolio'
 import Currencies from '../currencies/Currencies';
 
 export default class App extends React.Component {
@@ -33,6 +34,7 @@ export default class App extends React.Component {
       return(
         <div>
           <Logout email={this.state.email} logout={this.handleLogout}/>
+          <Portfolio email={this.state.email} auth_token={this.state.auth_token} />
           <Currencies auth_token={this.state.auth_token}/>
         </div>
       )
