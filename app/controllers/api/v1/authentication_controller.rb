@@ -9,10 +9,18 @@ module Api
         command = AuthenticateUser.call(params[:email], params[:password])
 
         if command.success?
-          render json: { auth_token: command.result.first, email: command.result.last.email }
+          render json: user_data(command)
         else
           render json: { error: command.errors }, status: :unauthorized
         end
+      end
+
+      private
+
+      def user_data(command)
+        { auth_token: command.result.first,
+          email: command.result.last.email,
+          portfolio: command.result.last.portfolio.portfolio_cryptocurrencies }
       end
     end
   end

@@ -10,7 +10,8 @@ import Currencies from '../currencies/Currencies';
 export default class App extends React.Component {
   state = {
     auth_token: "",
-    email: ""
+    email: "",
+    portfolio: []
   }
 
   handleAuthorization = (email, password) => {
@@ -18,7 +19,7 @@ export default class App extends React.Component {
       email: email,
       password: password
     }).then(data => {
-        this.setState({ auth_token: data.data.auth_token, email: data.data.email })
+        this.setState({ auth_token: data.data.auth_token, email: data.data.email, portfolio: data.data.portfolio })
       })
       .catch(error => {
         console.log(error.response)
@@ -29,13 +30,20 @@ export default class App extends React.Component {
     this.setState({ auth_token: "" })
   }
 
+  handleClick = (name, amount) => {
+    axios.post("http://localhost:3001/api/v1/portfolio", { name, amount, email: this.state.email }, { headers: { 'Authorization': this.state.auth_token } }).then(data => {
+      console.log(data)
+      this.setState({ portfolio: data.data })
+  })
+  }
+
   render() {
     if (this.state.auth_token) {
       return(
         <div>
           <Logout email={this.state.email} logout={this.handleLogout}/>
-          <Portfolio email={this.state.email} auth_token={this.state.auth_token} />
-          <Currencies auth_token={this.state.auth_token}/>
+          <Portfolio email={this.state.email} auth_token={this.state.auth_token} portfolio={this.state.portfolio} />
+          <Currencies email={this.state.email} auth_token={this.state.auth_token} handleClick={this.handleClick}/>
         </div>
       )
     } else {
