@@ -8,7 +8,8 @@ class Cryptocurrency < ApplicationRecord
       Cryptocurrency.find_or_create_by(
         name: currency.fetch('name'), symbol: currency.fetch('symbol')
       ).tap do |found_currency|
-        found_currency.price = currency.fetch('price_usd')
+        found_currency.market_cap = currency.fetch('market_cap_usd', 0)
+        found_currency.price = currency.fetch('price_usd', 0)
         found_currency.save
       end
     end

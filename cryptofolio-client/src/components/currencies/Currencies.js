@@ -15,7 +15,7 @@ export default class Currencies extends Component {
 
   render() {
     const listCurrencies = this.state.currencies.map((currency) =>
-      <li key={currency.symbol}>{ currency.symbol + " " + currency.name + " " + currency.price}</li>
+      <li key={currency.symbol}>{ currency.symbol + " " + currency.name + " " + currency.price + " " + currency.market_cap }</li>
     );
 
     return(<ul>{listCurrencies}</ul>)
