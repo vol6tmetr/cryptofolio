@@ -23,6 +23,7 @@ export default class Authentication extends Component {
   render() {
     return(
       <div className="authorization">
+        <h5>Need to authorize to see currencies</h5>
         <form>
           <label>
             Email:

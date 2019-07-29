@@ -3,11 +3,13 @@ import React from 'react';
 import axios from 'axios'
 
 import Authetication from '../authetication/Authentication'
+import Logout from '../logout/Logout'
 import Currencies from '../currencies/Currencies';
 
 export default class App extends React.Component {
   state = {
-    auth_token: ""
+    auth_token: "",
+    email: ""
   }
 
   handleAuthorization = (email, password) => {
@@ -15,19 +17,29 @@ export default class App extends React.Component {
       email: email,
       password: password
     }).then(data => {
-        this.setState({ auth_token: data.data.auth_token })
+        this.setState({ auth_token: data.data.auth_token, email: data.data.email })
       })
       .catch(error => {
         console.log(error.response)
       })
   }
 
+  handleLogout = () => {
+    this.setState({ auth_token: "" })
+  }
+
   render() {
-    return(
-      <div className="App">
+    if (this.state.auth_token) {
+      return(
+        <div>
+          <Logout email={this.state.email} logout={this.handleLogout}/>
+          <Currencies auth_token={this.state.auth_token}/>
+        </div>
+      )
+    } else {
+      return(
         <Authetication handleAuthorization={this.handleAuthorization}/>
-        { this.state.auth_token ? <Currencies auth_token={this.state.auth_token}/> : <h5>Need to authorize to see currencies</h5>}
-      </div>
-    )
+      )
+    }
   }
 }

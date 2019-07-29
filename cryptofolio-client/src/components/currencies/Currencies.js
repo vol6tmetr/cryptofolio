@@ -14,10 +14,24 @@ export default class Currencies extends Component {
   }
 
   render() {
-    const listCurrencies = this.state.currencies.map((currency) =>
-      <li key={currency.symbol}>{ currency.symbol + " " + currency.name + " " + currency.price + " " + currency.market_cap }</li>
-    );
+    const listCurrencies =
+      <table>
+        <tr>
+          <th>Currency Symbol</th>
+          <th>Currency Name</th>
+          <th>Currency Price</th>
+          <th>Currency Market cap</th>
+        </tr>
+        { this.state.currencies.map((currency) =>
+          <tr key={currency.symbol}>
+            <td>{ currency.symbol }</td>
+            <td>{ currency.name }</td>
+            <td>{ currency.price }</td>
+            <td>{ currency.market_cap }</td>
+          </tr>
+        )}
+      </table>
 
-    return(<ul>{listCurrencies}</ul>)
+    return(<div>{ listCurrencies }</div>)
   }
 }

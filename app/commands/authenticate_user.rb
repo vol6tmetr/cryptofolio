@@ -9,7 +9,7 @@ class AuthenticateUser
   end
 
   def call
-    JsonWebToken.encode(user_id: user.id) if user
+    [JsonWebToken.encode(user_id: user.id), user] if user
   end
 
   private
@@ -21,6 +21,5 @@ class AuthenticateUser
     return user if user&.authenticate(password)
 
     errors.add :user_authentication, 'invalid credentials'
-    nil
   end
 end
