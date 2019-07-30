@@ -4,15 +4,21 @@ module Api
   module V1
     class PortfolioController < ApplicationController
       def add
-        user_portfolio_cryptocurrencies.create(name: params['name'], amount: params['amount'])
+        user_portfolio_cryptocurrencies.create(name: params['name'], amount: params['amount'].to_f)
 
-        render(json: user_portfolio_cryptocurrencies.to_json)
+        current_user.portfolio.price += Cryptocurrency.find_by(name: params['name']).price * params['amount'].to_f
+        current_user.portfolio.save
+
+        render(json: { portfolio: user_portfolio_cryptocurrencies, price: current_user.portfolio.price })
       end
 
       def remove
-        user_portfolio_cryptocurrencies.find_by(id: params['item_id']).destroy
+        portfolio_item = user_portfolio_cryptocurrencies.find_by(id: params['item_id'])
+        current_user.portfolio.price -= Cryptocurrency.find_by(name: portfolio_item.name).price * portfolio_item.amount
+        current_user.portfolio.save
+        portfolio_item.destroy
 
-        render(json: user_portfolio_cryptocurrencies.to_json)
+        render(json: { portfolio: user_portfolio_cryptocurrencies, price: current_user.portfolio.price })
       end
 
       private

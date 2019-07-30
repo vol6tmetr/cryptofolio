@@ -12,7 +12,8 @@ export default class App extends React.Component {
   state = {
     auth_token: "",
     email: "",
-    portfolio: []
+    portfolio: [],
+    portfolio_price: 0
   }
 
   handleAuthorization = (email, password) => {
@@ -35,17 +36,17 @@ export default class App extends React.Component {
     axios.post("http://localhost:3001/api/v1/portfolio", { name, amount }, { headers: { 'Authorization': this.state.auth_token } }).then(data => {
       console.log(data)
 
-      this.setState({ portfolio: data.data })
+      this.setState({ portfolio: data.data.portfolio, portfolio_price: data.data.price })
   })
   }
 
-  removeCurrency = (item_id) => {
+  removeCurrency = (item_id, item_name, amount) => {
     console.log("Removing" + item_id);
 
-    axios.delete('http://localhost:3001/api/v1/portfolio/currency', { headers: { 'Authorization': this.state.auth_token }, data: { item_id }}).then(data => {
+    axios.delete('http://localhost:3001/api/v1/portfolio/currency', { headers: { 'Authorization': this.state.auth_token }, data: { item_id, item_name, amount }}).then(data => {
       console.log(data);
 
-      this.setState({ portfolio: data.data })
+      this.setState({ portfolio: data.data.portfolio, portfolio_price: data.data.price })
     });
   }
 
@@ -64,7 +65,7 @@ export default class App extends React.Component {
       return(
         <div>
           <Logout email={this.state.email} logout={this.handleLogout}/>
-          <Portfolio email={this.state.email} auth_token={this.state.auth_token} portfolio={this.state.portfolio} removeCurrency={this.removeCurrency}/>
+          <Portfolio email={this.state.email} auth_token={this.state.auth_token} portfolio={this.state.portfolio} price={this.state.portfolio_price} removeCurrency={this.removeCurrency}/>
           <Currencies auth_token={this.state.auth_token} handleClick={this.handleClick}/>
         </div>
       )
