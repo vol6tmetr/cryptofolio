@@ -37,12 +37,21 @@ export default class App extends React.Component {
   })
   }
 
+  removeCurrency = (item_id) => {
+    console.log("Removing" + item_id);
+
+    axios.delete('http://localhost:3001/api/v1/portfolio/currency', { headers: { 'Authorization': this.state.auth_token }, data: { item_id, email: this.state.email }}).then(data => {
+      console.log(data);
+      this.setState({ portfolio: data.data })
+    });
+  }
+
   render() {
     if (this.state.auth_token) {
       return(
         <div>
           <Logout email={this.state.email} logout={this.handleLogout}/>
-          <Portfolio email={this.state.email} auth_token={this.state.auth_token} portfolio={this.state.portfolio} />
+          <Portfolio email={this.state.email} auth_token={this.state.auth_token} portfolio={this.state.portfolio} removeCurrency={this.removeCurrency} />
           <Currencies email={this.state.email} auth_token={this.state.auth_token} handleClick={this.handleClick}/>
         </div>
       )

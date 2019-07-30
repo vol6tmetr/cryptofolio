@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       post 'authenticate', to: 'authentication#authenticate'
       get 'currencies', to: 'currencies#index'
       post 'portfolio', to: 'portfolio#add'
+      delete 'portfolio/currency', to: 'portfolio#remove'
     end
   end
 end

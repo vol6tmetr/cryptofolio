@@ -9,6 +9,12 @@ module Api
         render(json: user_portfolio_cryptocurrencies.to_json)
       end
 
+      def remove
+        user_portfolio_cryptocurrencies.find_by(id: params['item_id']).destroy
+
+        render(json: user_portfolio_cryptocurrencies.to_json)
+      end
+
       private
 
       def user_portfolio_cryptocurrencies
