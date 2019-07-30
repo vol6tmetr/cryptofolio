@@ -3,5 +3,7 @@
 class User < ApplicationRecord
   has_secure_password
 
-  has_one :portfolio
+  validates :email, uniqueness: true
+
+  has_one :portfolio, dependent: :destroy
 end

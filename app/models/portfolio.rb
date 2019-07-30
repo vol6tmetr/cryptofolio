@@ -3,5 +3,5 @@
 class Portfolio < ApplicationRecord
   belongs_to :user
 
-  has_many :portfolio_cryptocurrencies
+  has_many :portfolio_cryptocurrencies, dependent: :destroy
 end

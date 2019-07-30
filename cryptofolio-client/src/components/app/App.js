@@ -2,6 +2,7 @@ import React from 'react';
 
 import axios from 'axios'
 
+import Registration from '../registration/Registration'
 import Authetication from '../authetication/Authentication'
 import Logout from '../logout/Logout'
 import Portfolio from '../portfolio/Portfolio'
@@ -31,8 +32,9 @@ export default class App extends React.Component {
   }
 
   handleClick = (name, amount) => {
-    axios.post("http://localhost:3001/api/v1/portfolio", { name, amount, email: this.state.email }, { headers: { 'Authorization': this.state.auth_token } }).then(data => {
+    axios.post("http://localhost:3001/api/v1/portfolio", { name, amount }, { headers: { 'Authorization': this.state.auth_token } }).then(data => {
       console.log(data)
+
       this.setState({ portfolio: data.data })
   })
   }
@@ -40,9 +42,20 @@ export default class App extends React.Component {
   removeCurrency = (item_id) => {
     console.log("Removing" + item_id);
 
-    axios.delete('http://localhost:3001/api/v1/portfolio/currency', { headers: { 'Authorization': this.state.auth_token }, data: { item_id, email: this.state.email }}).then(data => {
+    axios.delete('http://localhost:3001/api/v1/portfolio/currency', { headers: { 'Authorization': this.state.auth_token }, data: { item_id }}).then(data => {
       console.log(data);
+
       this.setState({ portfolio: data.data })
+    });
+  }
+
+  handleRegistration = (name, email, password) => {
+    console.log(name + " " + email + " " + password)
+
+    axios.post('http://localhost:3001/api/v1/registration', { name, email, password }).then(data => {
+      console.log(data)
+
+      this.setState({ auth_token: data.data.auth_token, email: data.data.email, portfolio: data.data.portfolio })
     });
   }
 
@@ -51,13 +64,17 @@ export default class App extends React.Component {
       return(
         <div>
           <Logout email={this.state.email} logout={this.handleLogout}/>
-          <Portfolio email={this.state.email} auth_token={this.state.auth_token} portfolio={this.state.portfolio} removeCurrency={this.removeCurrency} />
-          <Currencies email={this.state.email} auth_token={this.state.auth_token} handleClick={this.handleClick}/>
+          <Portfolio email={this.state.email} auth_token={this.state.auth_token} portfolio={this.state.portfolio} removeCurrency={this.removeCurrency}/>
+          <Currencies auth_token={this.state.auth_token} handleClick={this.handleClick}/>
         </div>
       )
     } else {
       return(
-        <Authetication handleAuthorization={this.handleAuthorization}/>
+        <div>
+          <h5>Need to authorize to see currencies</h5>
+          <Registration handleRegistration={this.handleRegistration}/>
+          <Authetication handleAuthorization={this.handleAuthorization}/>
+        </div>
       )
     }
   }

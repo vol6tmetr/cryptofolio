@@ -18,7 +18,7 @@ module Api
       private
 
       def user_portfolio_cryptocurrencies
-        User.find_by(email: params['email']).portfolio.portfolio_cryptocurrencies
+        current_user.portfolio.portfolio_cryptocurrencies
       end
     end
   end

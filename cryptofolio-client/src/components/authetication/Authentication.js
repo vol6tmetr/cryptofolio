@@ -22,20 +22,17 @@ export default class Authentication extends Component {
 
   render() {
     return(
-      <div className="authorization">
-        <h5>Need to authorize to see currencies</h5>
-        <form>
-          <label>
-            Email:
-            <input type="text" name="email" value={this.state.email} onChange={this.handleChange} />
-          </label>
-          <label>
-            Password:
-            <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
-          </label>
-          <button value="Authorize" onClick={this.handleAuthorization}>Authorize</button>
-        </form>
-      </div>
+      <form>
+        <label>
+          Email:
+          <input type="text" name="email" value={this.state.email} onChange={this.handleChange} />
+        </label>
+        <label>
+          Password:
+          <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
+        </label>
+        <button value="Authorize" onClick={this.handleAuthorization}>Authorize</button>
+      </form>
     )
   }
 }
