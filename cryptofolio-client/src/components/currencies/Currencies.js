@@ -3,10 +3,13 @@ import axios from 'axios';
 
 import CurrencyForm from '../currency_form/CurrencyForm'
 
+import TableSort from '../../helpers/TableSort'
+
 export default class Currencies extends Component {
   state = {
     currencies: [],
-    amount: ""
+    amount: "",
+    sorting: { 'market_cap': 'desc' }
   }
 
   componentDidMount = () => {
@@ -26,15 +29,31 @@ export default class Currencies extends Component {
     this.props.handleClick(name, amount)
   }
 
+  handleStringsSort = (column_name) => {
+    this.setState({
+      currencies: this.state.currencies.sort((a, b) => {
+        return TableSort.compareStrings(a[column_name].toLowerCase(), b[column_name].toLowerCase(), this.state.sorting, column_name);
+      }),
+      sorting: { [column_name]: TableSort.getSorting(this.state.sorting, column_name) }
+    });
+  }
+
+  handleNumbersSort = (column_name) => {
+    this.setState({
+      currencies: this.state.currencies.sort((a, b) => { return TableSort.compareNumbers(a, b, this.state.sorting, column_name) }),
+      sorting: { [column_name]: TableSort.getSorting(this.state.sorting, column_name) }
+    });
+  }
+
   render() {
     const listCurrencies =
       <table>
         <thead>
           <tr>
-            <th>Currency Symbol</th>
-            <th>Currency Name</th>
-            <th>Currency Price</th>
-            <th>Currency Market cap</th>
+            <th onClick={() => this.handleStringsSort('symbol')}>Currency Symbol</th>
+            <th onClick={() => this.handleStringsSort('name')}>Currency Name</th>
+            <th onClick={() => this.handleNumbersSort('price')}>Currency Price</th>
+            <th onClick={() => this.handleNumbersSort('market_cap')}>Currency Market cap</th>
             <th>Amount</th>
           </tr>
         </thead>

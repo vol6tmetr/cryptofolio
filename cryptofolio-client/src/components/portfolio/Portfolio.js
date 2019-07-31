@@ -10,6 +10,7 @@ export default class Portfolio extends Component {
   }
 
   render() {
+    const portfolio_price = <h5>Portfolio price: {this.props.price}</h5>
     const portfolio =
       <table>
         <thead>
@@ -22,7 +23,7 @@ export default class Portfolio extends Component {
         </thead>
         <tbody>
           { this.props.portfolio.map((portfolio_item) =>
-            <tr>
+            <tr key={portfolio_item.id}>
               <td>{ portfolio_item.name }</td>
               <td>{ portfolio_item.amount }</td>
               <td>{ new Date(portfolio_item.created_at).toString() }</td>
@@ -32,11 +33,19 @@ export default class Portfolio extends Component {
         </tbody>
       </table>
 
-    return(
-      <div>
-        <h5>Portfolio price: {this.props.price}</h5>
-        { portfolio }
-      </div>
-    )
+    if (this.props.portfolio.length === 0) {
+      return(
+        <div>
+          { portfolio_price }
+        </div>
+      )
+    } else {
+      return(
+        <div>
+          { portfolio_price }
+          { portfolio }
+        </div>
+      )
+    }
   }
 }
