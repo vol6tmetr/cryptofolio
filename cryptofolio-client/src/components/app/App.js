@@ -8,6 +8,9 @@ import Logout from '../logout/Logout'
 import Portfolio from '../portfolio/Portfolio'
 import Currencies from '../currencies/Currencies';
 
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+
 export default class App extends React.Component {
   state = {
     auth_token: "",
@@ -63,19 +66,21 @@ export default class App extends React.Component {
   render() {
     if (this.state.auth_token) {
       return(
-        <div>
+        <Container maxWidth="lg">
           <Logout email={this.state.email} logout={this.handleLogout}/>
           <Portfolio email={this.state.email} auth_token={this.state.auth_token} portfolio={this.state.portfolio} price={this.state.portfolio_price} removeCurrency={this.removeCurrency}/>
           <Currencies auth_token={this.state.auth_token} handleClick={this.handleClick}/>
-        </div>
+        </Container>
       )
     } else {
       return(
-        <div>
-          <h5>Need to authorize to see currencies</h5>
+        <Container maxWidth="md">
+          <Typography variant="h3" align="center" style={{ margin: 15 }}>Welcome to the cryptofolio!</Typography>
+          <Typography variant="h5" align="center" style={{ marginBottom: 15 }}>Register</Typography>
           <Registration handleRegistration={this.handleRegistration}/>
+          <Typography variant="h5" align="center" style={{ margin: 15 }}>Login</Typography>
           <Authetication handleAuthorization={this.handleAuthorization}/>
-        </div>
+        </Container>
       )
     }
   }

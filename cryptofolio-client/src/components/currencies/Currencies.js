@@ -5,6 +5,13 @@ import CurrencyForm from '../currency_form/CurrencyForm'
 
 import TableSort from '../../helpers/TableSort'
 
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+
 export default class Currencies extends Component {
   state = {
     currencies: [],
@@ -47,28 +54,30 @@ export default class Currencies extends Component {
 
   render() {
     const listCurrencies =
-      <table>
-        <thead>
-          <tr>
-            <th onClick={() => this.handleStringsSort('symbol')}>Currency Symbol</th>
-            <th onClick={() => this.handleStringsSort('name')}>Currency Name</th>
-            <th onClick={() => this.handleNumbersSort('price')}>Currency Price</th>
-            <th onClick={() => this.handleNumbersSort('market_cap')}>Currency Market cap</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          { this.state.currencies.map((currency) =>
-            <tr key={currency.symbol}>
-              <td>{ currency.symbol }</td>
-              <td>{ currency.name }</td>
-              <td>{ currency.price }</td>
-              <td>{ currency.market_cap }</td>
-              <td><CurrencyForm name={currency.name} handleClick={this.handleClick} /></td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <Paper>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell onClick={() => this.handleStringsSort('symbol')}>Currency Symbol</TableCell>
+              <TableCell onClick={() => this.handleStringsSort('name')}>Currency Name</TableCell>
+              <TableCell onClick={() => this.handleNumbersSort('price')}>Currency Price</TableCell>
+              <TableCell onClick={() => this.handleNumbersSort('market_cap')}>Currency Market cap</TableCell>
+              <TableCell>Amount</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            { this.state.currencies.map((currency) =>
+              <TableRow key={currency.symbol}>
+                <TableCell>{ currency.symbol }</TableCell>
+                <TableCell>{ currency.name }</TableCell>
+                <TableCell>{ currency.price }</TableCell>
+                <TableCell>{ currency.market_cap }</TableCell>
+                <TableCell><CurrencyForm name={currency.name} handleClick={this.handleClick} /></TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </Paper>
 
     return(<div>{ listCurrencies }</div>)
   }

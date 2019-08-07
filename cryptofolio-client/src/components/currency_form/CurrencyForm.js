@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+
 export default class CurrencyForm extends Component {
   constructor(props) {
     super(props)
@@ -26,8 +29,8 @@ export default class CurrencyForm extends Component {
   render() {
     return(
       <form>
-        <input value={this.state.amount} onChange={this.handleChange}></input>
-        <button onClick={this.handleClick}>Add</button>
+        <TextField value={this.state.amount} onChange={this.handleChange} style={{ marginRight: 20 }}></TextField>
+        <Button variant="contained" color="primary" onClick={this.handleClick}>Add</Button>
       </form>
     )
   }
