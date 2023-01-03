@@ -22,7 +22,7 @@ gem 'nokogiri', '>= 1.10.4'
 
 gem 'jwt', '~> 2.2.1'
 
-gem 'httparty', '~> 0.17.0'
+gem 'httparty', '~> 0.21.0'
 
 gem 'simple_command', '~> 0.0.9'
 
